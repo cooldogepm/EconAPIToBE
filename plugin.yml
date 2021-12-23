@@ -1,0 +1,11 @@
+name: EconAPIToBE
+version: 0.0.1
+api: [ 4.0.0 ]
+php: [ 8.0 ]
+author: cooldogedev
+main: cooldogedev\EconAPIToBE\EconAPIToBE
+description: EconomyAPI to BedrockEconomy conversion tool
+permissions:
+  econapitobe.convert:
+    description: Allows users to initiate the conversion
+    default: op

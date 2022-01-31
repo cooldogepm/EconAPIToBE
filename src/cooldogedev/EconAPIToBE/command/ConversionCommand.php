@@ -27,7 +27,7 @@ declare(strict_types=1);
 namespace cooldogedev\EconAPIToBE\command;
 
 use cooldogedev\BedrockEconomy\BedrockEconomy;
-use cooldogedev\BedrockEconomy\constant\SearchConstants;
+use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 use cooldogedev\EconAPIToBE\EconAPIToBE;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\command\Command;
@@ -50,12 +50,19 @@ class ConversionCommand extends Command
         $data = EconomyAPI::getInstance()->getAllMoney();
 
         foreach ($data as $username => $balance) {
-            if (BedrockEconomy::getInstance()->getAccountManager()->hasAccount($username, SearchConstants::SEARCH_MODE_USERNAME)) {
-                BedrockEconomy::getInstance()->getAccountManager()->getAccount($username, SearchConstants::SEARCH_MODE_USERNAME)->setBalance($balance);
-            } else {
-                BedrockEconomy::getInstance()->getAccountManager()->addAccount($username, $username, (int)floor($balance), true);
-            }
-            $this->getPlugin()->getLogger()->debug("Successfully converted " . $username . "'s balance (" . $balance . ")");
+            BedrockEconomyAPI::getInstance()->getPlayerBalance(
+            $username,
+            ClosureContext::create(
+                function (?int $balance) use ($username): void {
+                    if ($balance === null) {
+                        $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $balance . ")");
+                        BedrockEconomy::getInstance()->getAccountManager()->createAccount($username, $balance);
+                    } else {
+                        $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $balance . ")");
+                        BedrockEconomyAPI::getInstance()->addToPlayerBalance($username, $balance);
+                    }
+                }
+            ));
         }
     }
 

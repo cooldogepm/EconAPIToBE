@@ -26,16 +26,16 @@ declare(strict_types=1);
 
 namespace cooldogedev\EconAPIToBE\command;
 
-use cooldogedev\BedrockEconomy\BedrockEconomy;
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
+use cooldogedev\BedrockEconomy\BedrockEconomy;
 use cooldogedev\EconAPIToBE\EconAPIToBE;
+use cooldogedev\libSQL\context\ClosureContext;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
 class ConversionCommand extends Command
 {
-
     public function __construct(protected EconAPIToBE $plugin)
     {
         parent::__construct("econapiconvert", "Convert all of your EconomyAPI Data to BedrockEconomy", null, ["eac"]);
@@ -51,18 +51,19 @@ class ConversionCommand extends Command
 
         foreach ($data as $username => $balance) {
             BedrockEconomyAPI::getInstance()->getPlayerBalance(
-            $username,
-            ClosureContext::create(
-                function (?int $balance) use ($username): void {
-                    if ($balance === null) {
-                        $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $balance . ")");
-                        BedrockEconomy::getInstance()->getAccountManager()->createAccount($username, $balance);
-                    } else {
-                        $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $balance . ")");
-                        BedrockEconomyAPI::getInstance()->addToPlayerBalance($username, $balance);
+                $username,
+                ClosureContext::create(
+                    function (?int $balance) use ($username): void {
+                        if ($balance === null) {
+                            $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $balance . ")");
+                            BedrockEconomy::getInstance()->getAccountManager()->createAccount($username, $balance);
+                        } else {
+                            $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $balance . ")");
+                            BedrockEconomyAPI::getInstance()->addToPlayerBalance($username, $balance);
+                        }
                     }
-                }
-            ));
+                )
+            );
         }
     }
 

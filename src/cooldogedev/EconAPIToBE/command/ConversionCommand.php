@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace cooldogedev\EconAPIToBE\command;
 
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
-use cooldogedev\BedrockEconomy\BedrockEconomy;
 use cooldogedev\EconAPIToBE\EconAPIToBE;
 use cooldogedev\libSQL\context\ClosureContext;
 use onebone\economyapi\EconomyAPI;
@@ -56,7 +55,7 @@ class ConversionCommand extends Command
                     function (?int $balance) use ($username): void {
                         if ($balance === null) {
                             $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $balance . ")");
-                            BedrockEconomy::getInstance()->getAccountManager()->createAccount($username, $balance);
+                            BedrockEconomyAPI::getInstance()->createAccount($username, $balance);
                         } else {
                             $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $balance . ")");
                             BedrockEconomyAPI::getInstance()->addToPlayerBalance($username, $balance);

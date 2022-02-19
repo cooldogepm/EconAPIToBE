@@ -55,10 +55,10 @@ final class ConversionCommand extends Command
                     function (?int $balance) use ($username, $ecoMoney): void {
                         if ($balance === null) {
                             $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $ecoMoney . ")");
-                            BedrockEconomyAPI::getInstance()->createAccount($username, $ecoMoney);
+                            BedrockEconomyAPI::getInstance()->createAccount($username, (int)floor($ecoMoney));
                         } else {
                             $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $ecoMoney . ")");
-                            BedrockEconomyAPI::getInstance()->setPlayerBalance($username, $ecoMoney);
+                            BedrockEconomyAPI::getInstance()->setPlayerBalance($username, (int)floor($ecoMoney));
                         }
                     }
                 )

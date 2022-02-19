@@ -5,7 +5,4 @@ branches:
 projects:
   EconAPIToBE:
     path: ""
-    libs:
-      - src: cooldogedev/libSQL/libSQL
-        version: ^0.1.0
 ...

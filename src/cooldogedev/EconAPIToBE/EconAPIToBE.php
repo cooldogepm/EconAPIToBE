@@ -29,7 +29,7 @@ namespace cooldogedev\EconAPIToBE;
 use cooldogedev\EconAPIToBE\command\ConversionCommand;
 use pocketmine\plugin\PluginBase;
 
-class EconAPIToBE extends PluginBase
+final class EconAPIToBE extends PluginBase
 {
     protected function onEnable(): void
     {

@@ -5,6 +5,7 @@ php: [ 8.0 ]
 author: cooldogedev
 main: cooldogedev\EconAPIToBE\EconAPIToBE
 description: EconomyAPI to BedrockEconomy conversion tool
+depend: [ BedrockEconomy, EconomyAPI ]
 permissions:
   econapitobe.convert:
     description: Allows users to initiate the conversion

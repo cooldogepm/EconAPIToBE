@@ -33,7 +33,7 @@ use onebone\economyapi\EconomyAPI;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 
-class ConversionCommand extends Command
+final class ConversionCommand extends Command
 {
     public function __construct(protected EconAPIToBE $plugin)
     {

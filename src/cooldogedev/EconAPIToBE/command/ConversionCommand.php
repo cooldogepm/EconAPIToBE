@@ -48,17 +48,17 @@ final class ConversionCommand extends Command
         }
         $data = EconomyAPI::getInstance()->getAllMoney();
 
-        foreach ($data as $username => $balance) {
+        foreach ($data as $username => $ecoMoney) {
             BedrockEconomyAPI::getInstance()->getPlayerBalance(
                 $username,
                 ClosureContext::create(
                     function (?int $balance) use ($username): void {
                         if ($balance === null) {
-                            $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $balance . ")");
-                            BedrockEconomyAPI::getInstance()->createAccount($username, $balance);
+                            $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $ecoMoney . ")");
+                            BedrockEconomyAPI::getInstance()->createAccount($username, $ecoMoney);
                         } else {
-                            $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $balance . ")");
-                            BedrockEconomyAPI::getInstance()->addToPlayerBalance($username, $balance);
+                            $this->getPlugin()->getLogger()->debug("Adding money to " . $username . "'s balance (" . $ecoMoney . ")");
+                            BedrockEconomyAPI::getInstance()->setPlayerBalance($username, $ecoMoney);
                         }
                     }
                 )

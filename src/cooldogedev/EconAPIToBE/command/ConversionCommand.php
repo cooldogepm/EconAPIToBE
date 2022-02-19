@@ -28,7 +28,7 @@ namespace cooldogedev\EconAPIToBE\command;
 
 use cooldogedev\BedrockEconomy\api\BedrockEconomyAPI;
 use cooldogedev\EconAPIToBE\EconAPIToBE;
-use cooldogedev\libSQL\context\ClosureContext;
+use cooldogedev\BedrockEconomy\libs\cooldogedev\libSQL\context\ClosureContext;
 use onebone\economyapi\EconomyAPI;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;

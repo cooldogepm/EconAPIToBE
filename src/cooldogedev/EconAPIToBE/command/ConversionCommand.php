@@ -52,7 +52,7 @@ final class ConversionCommand extends Command
             BedrockEconomyAPI::getInstance()->getPlayerBalance(
                 $username,
                 ClosureContext::create(
-                    function (?int $balance) use ($username): void {
+                    function (?int $balance) use ($username, $ecoMoney): void {
                         if ($balance === null) {
                             $this->getPlugin()->getLogger()->debug("Creating an account for " . $username . " balance (" . $ecoMoney . ")");
                             BedrockEconomyAPI::getInstance()->createAccount($username, $ecoMoney);
